@@ -27,9 +27,8 @@ ENV NODE_ENV production
 WORKDIR /usr/src/app
 # Copy from build image the node_modules folder with all dependencies.
 COPY --chown=node:node --from=deps /usr/src/app/node_modules /usr/src/app/node_modules
-COPY --chown=node:node . /usr/src/app
-# Setup prisma schema
-RUN npx prisma generate
+COPY --chown=node:node . /usr/src/app/
+
 # Sets the user to "node", which is a non-root user for better security.
 USER node
 
