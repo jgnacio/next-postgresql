@@ -29,6 +29,9 @@ WORKDIR /usr/src/app
 COPY --chown=node:node --from=deps /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --chown=node:node . /usr/src/app/
 
+RUN npx prisma generate \
+    npx prisma migrate deploy
+
 # Sets the user to "node", which is a non-root user for better security.
 USER node
 
