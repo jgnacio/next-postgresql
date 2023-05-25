@@ -26,8 +26,8 @@ FROM base AS runner
 ENV NODE_ENV production
 WORKDIR /usr/src/app
 # Copy from build image the node_modules folder with all dependencies.
-COPY --chown=node:node --from=deps /usr/src/app/node_modules /usr/src/app/node_modules
-COPY --chown=node:node . /usr/src/app/
+COPY --chown=node:node --from=deps /usr/src/app/node_modules ./
+COPY --chown=node:node . .
 
 RUN npx prisma generate \
     npx prisma migrate deploy
