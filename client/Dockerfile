@@ -44,6 +44,11 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # Add users
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+# Install pm2 (production process manager for node.js)
+RUN npm install pm2@latest -g;
+
+# Copy all files required
 COPY --from=build /usr/src/app/public ./public
 # Automatically leverage output traces to reduce image size
 COPY --from=build --chown=nextjs:nodejs /usr/src/app/.next/standalone ./
@@ -52,4 +57,4 @@ COPY --from=build --chown=nextjs:nodejs /usr/src/app/.next/static ./.next/static
 USER nextjs
 EXPOSE 3000
 ENV PORT 3000
-CMD ["node", "server.js"]
+CMD ["pm2-runtime", "server.js"]
