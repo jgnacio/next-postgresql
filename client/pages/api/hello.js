@@ -5,14 +5,12 @@ export default function hello(req, res) {
   let buffer = "";
   axios
     .get("http://api:3005/")
-    .then(async function (response) {
-      buffer = await response;
+    .then(function (response) {
+      console.log(response);
     })
     .catch(function (error) {
       buffer = response;
       console.log(error);
     });
-  console.log(typeof buffer);
-  console.log(buffer);
-  res.status(200).json({ name: buffer });
+  res.status(200).json({ name: "hola" });
 }

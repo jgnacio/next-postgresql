@@ -2,11 +2,14 @@ version: '3.9'
 
 services:
   nginx-proxy:
-    image: jwilder/nginx-proxy
+    build: ./nginx-proxy/
+    container_name: nginx-proxy
+    restart: always
     networks:
       - reverseProxy
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
@@ -17,13 +20,13 @@ services:
       - intraNet
       - reverseProxy
     expose:
-      - "80:3000"
+      - "3000"
     volumes:
       - ./client:/app
     depends_on:
       - api
     environment:
-      - VIRTUAL_HOST=nextjs.test
+      - VIRTUAL_HOST=learn-abba.com
 
   api:
     build:
@@ -33,6 +36,8 @@ services:
     expose:
       - "3005:3005"
     working_dir: /usr/src/app
+    env_file:
+      - server/.build/.env
     command: >
       node server.js
 
